@@ -14,7 +14,7 @@
       <div class="app-header__brand">
         <div class="app-header__logo" aria-hidden="true">SA</div>
         <div>
-          <h1 class="app-header__title">Student Attendance System</h1>
+          <h1 class="app-header__title">Daily Attendance Report</h1>
           <p class="app-header__subtitle">Track daily attendance with ease</p>
         </div>
       </div>
@@ -41,6 +41,36 @@
         <span class="stat-card__label">Attendance Rate</span>
         <span class="stat-card__value" id="stat-rate">0%</span>
       </article>
+    </section>
+
+    <!-- ===== Summary by Class ===== -->
+    <section class="panel panel--wide class-summary" aria-labelledby="class-summary-heading">
+      <div class="panel__header">
+        <h2 class="panel__heading" id="class-summary-heading">Attendance by Class</h2>
+        <span class="badge" id="class-count">0 classes</span>
+      </div>
+
+      <div class="table-wrap">
+        <table class="table" id="class-summary-table">
+          <thead>
+            <tr>
+              <th scope="col">Class</th>
+              <th scope="col">Total</th>
+              <th scope="col">Present</th>
+              <th scope="col">Absent</th>
+              <th scope="col">Rate</th>
+            </tr>
+          </thead>
+          <tbody id="class-summary-tbody"></tbody>
+        </table>
+
+        <!-- Empty state -->
+        <div class="empty-state" id="class-summary-empty" hidden>
+          <div class="empty-state__icon" aria-hidden="true">&#127979;</div>
+          <h3>No classes to summarise yet</h3>
+          <p>Add students to see their attendance broken down by class.</p>
+        </div>
+      </div>
     </section>
 
     <div class="layout">
