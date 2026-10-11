@@ -26,7 +26,7 @@ No dependencies or build tools are required.
 1. Clone the repository:
 
    ```bash
-   git clone https://github.com/<your-username>/Student-Attendance-System.git
+   git clone https://github.com/ap1311/Student-Attendance-System.git
    cd Student-Attendance-System
    ```
 
