@@ -31,6 +31,11 @@
   var statAbsent = document.getElementById("stat-absent");
   var statRate = document.getElementById("stat-rate");
 
+  var classSummaryBody = document.getElementById("class-summary-tbody");
+  var classSummaryTable = document.getElementById("class-summary-table");
+  var classSummaryEmpty = document.getElementById("class-summary-empty");
+  var classCount = document.getElementById("class-count");
+
   var clearAllBtn = document.getElementById("clear-all-btn");
 
   /* ---------- State ---------- */
@@ -179,6 +184,74 @@
     recordCount.textContent = total + (total === 1 ? " record" : " records");
   }
 
+  /**
+   * Groups the current students by class and returns a sorted summary
+   * of totals, present and absent counts, and attendance rate per class.
+   */
+  function computeClassSummary() {
+    var groups = Object.create(null);
+
+    students.forEach(function (student) {
+      var key = String(student.className || "").trim() || "Unassigned";
+
+      if (!groups[key]) {
+        groups[key] = { className: key, total: 0, present: 0, absent: 0 };
+      }
+
+      groups[key].total += 1;
+      if (student.status === "present") {
+        groups[key].present += 1;
+      } else {
+        groups[key].absent += 1;
+      }
+    });
+
+    return Object.keys(groups).map(function (key) {
+      var group = groups[key];
+      group.rate = group.total === 0
+        ? 0
+        : Math.round((group.present / group.total) * 100);
+      return group;
+    }).sort(function (a, b) {
+      return a.className.localeCompare(b.className, undefined, {
+        numeric: true,
+        sensitivity: "base"
+      });
+    });
+  }
+
+  /**
+   * Renders the per-class attendance summary table.
+   */
+  function renderClassSummary() {
+    var rows = computeClassSummary();
+
+    classSummaryBody.innerHTML = "";
+
+    if (rows.length === 0) {
+      classSummaryTable.hidden = true;
+      classSummaryEmpty.hidden = false;
+      classCount.textContent = "0 classes";
+      return;
+    }
+
+    classSummaryTable.hidden = false;
+    classSummaryEmpty.hidden = true;
+
+    rows.forEach(function (row) {
+      var tr = document.createElement("tr");
+      tr.innerHTML =
+        '<td class="class-summary__name" data-label="Class">' + escapeHtml(row.className) + '</td>' +
+        '<td data-label="Total">' + row.total + '</td>' +
+        '<td class="class-summary__present" data-label="Present">' + row.present + '</td>' +
+        '<td class="class-summary__absent" data-label="Absent">' + row.absent + '</td>' +
+        '<td class="class-summary__rate" data-label="Rate">' + row.rate + '%</td>';
+      classSummaryBody.appendChild(tr);
+    });
+
+    classCount.textContent = rows.length + (rows.length === 1 ? " class" : " classes");
+  }
+
   /* =========================================================
      Rendering
      ========================================================= */
@@ -198,6 +271,7 @@
     }
 
     updateStats();
+    renderClassSummary();
   }
 
   function buildRow(student, index) {
