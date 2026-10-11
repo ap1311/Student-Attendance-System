@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Student Attendance System</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="app">
+
+    <!-- ===== Header ===== -->
+    <header class="app-header">
+      <div class="app-header__brand">
+        <div class="app-header__logo" aria-hidden="true">SA</div>
+        <div>
+          <h1 class="app-header__title">Student Attendance System</h1>
+          <p class="app-header__subtitle">Track daily attendance with ease</p>
+        </div>
+      </div>
+      <button type="button" id="clear-all-btn" class="btn btn--ghost" title="Remove all student records">
+        Clear All
+      </button>
+    </header>
+
+    <!-- ===== Stats ===== -->
+    <section class="stats" aria-label="Attendance summary">
+      <article class="stat-card stat-card--total">
+        <span class="stat-card__label">Total Students</span>
+        <span class="stat-card__value" id="stat-total">0</span>
+      </article>
+      <article class="stat-card stat-card--present">
+        <span class="stat-card__label">Present</span>
+        <span class="stat-card__value" id="stat-present">0</span>
+      </article>
+      <article class="stat-card stat-card--absent">
+        <span class="stat-card__label">Absent</span>
+        <span class="stat-card__value" id="stat-absent">0</span>
+      </article>
+      <article class="stat-card stat-card--rate">
+        <span class="stat-card__label">Attendance Rate</span>
+        <span class="stat-card__value" id="stat-rate">0%</span>
+      </article>
+    </section>
+
+    <div class="layout">
+
+      <!-- ===== Add Student Form ===== -->
+      <section class="panel" aria-labelledby="form-heading">
+        <h2 class="panel__heading" id="form-heading">Add New Student</h2>
+
+        <form id="student-form" class="form" novalidate>
+          <div class="form__field">
+            <label for="student-name">Full Name</label>
+            <input type="text" id="student-name" name="name" placeholder="e.g. Aarav Sharma"
+                   autocomplete="off" maxlength="60" />
+            <p class="form__error" id="error-name" role="alert"></p>
+          </div>
+
+          <div class="form__field">
+            <label for="student-roll">Roll Number</label>
+            <input type="text" id="student-roll" name="roll" placeholder="e.g. 101"
+                   autocomplete="off" maxlength="20" />
+            <p class="form__error" id="error-roll" role="alert"></p>
+          </div>
+
+          <div class="form__field">
+            <label for="student-class">Class</label>
+            <input type="text" id="student-class" name="className" placeholder="e.g. Grade 10-A"
+                   autocomplete="off" maxlength="30" />
+            <p class="form__error" id="error-class" role="alert"></p>
+          </div>
+
+          <div class="form__field">
+            <label>Status</label>
+            <div class="segmented" role="radiogroup" aria-label="Initial attendance status">
+              <label class="segmented__option">
+                <input type="radio" name="status" value="present" checked />
+                <span>Present</span>
+              </label>
+              <label class="segmented__option">
+                <input type="radio" name="status" value="absent" />
+                <span>Absent</span>
+              </label>
+            </div>
+          </div>
+
+          <button type="submit" class="btn btn--primary btn--block">Add Student</button>
+        </form>
+
+        <div id="form-message" class="form-message" role="status" aria-live="polite"></div>
+      </section>
+
+      <!-- ===== Records Table ===== -->
+      <section class="panel panel--wide" aria-labelledby="records-heading">
+        <div class="panel__header">
+          <h2 class="panel__heading" id="records-heading">Student Records</h2>
+          <span class="badge" id="record-count">0 records</span>
+        </div>
+
+        <div class="table-wrap">
+          <table class="table" id="student-table">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Name</th>
+                <th scope="col">Roll No.</th>
+                <th scope="col">Class</th>
+                <th scope="col">Status</th>
+                <th scope="col" class="table__actions-head">Actions</th>
+              </tr>
+            </thead>
+            <tbody id="student-tbody"></tbody>
+          </table>
+
+          <!-- Empty state -->
+          <div class="empty-state" id="empty-state" hidden>
+            <div class="empty-state__icon" aria-hidden="true">&#128100;</div>
+            <h3>No student records yet</h3>
+            <p>Add your first student using the form to start tracking attendance.</p>
+          </div>
+        </div>
+      </section>
+
+    </div>
+
+    <footer class="app-footer">
+      <p>Data is saved automatically in your browser&rsquo;s localStorage.</p>
+    </footer>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
